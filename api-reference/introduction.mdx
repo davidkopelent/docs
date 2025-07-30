@@ -1,28 +1,27 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Checks API documentation and endpoints'
 ---
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  Welcome to the Checks API documentation. This API allows you to manage checks at merchant places and desks.
 </Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+This documentation covers the Checks API, which provides endpoints for retrieving and processing payments for checks at merchant places and desks. The API is built using OpenAPI 3.0 specification and provides comprehensive documentation for all endpoints.
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="Checks API Endpoints"
+  icon="credit-card"
+  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi/checks-api.yaml"
 >
   View the OpenAPI specification file
 </Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints are authenticated using Bearer tokens. Include your JWT token in the Authorization header:
 
 ```json
 "security": [
@@ -31,3 +30,29 @@ All API endpoints are authenticated using Bearer tokens and picked up from the s
   }
 ]
 ```
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.storyous.com
+```
+
+## Available Endpoints
+
+- **GET /checks/{merchantPlaceId}/{deskId}** - Retrieve checks for a specific merchant place and desk
+- **POST /checks/{merchantPlaceId}/{deskId}** - Process payment for a check
+
+## Response Format
+
+All successful responses return JSON with a consistent structure:
+
+```json
+{
+  "data": [...],
+  "type": "string"
+}
+```
+
+Error responses include detailed error information to help with debugging.

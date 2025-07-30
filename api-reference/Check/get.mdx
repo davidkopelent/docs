@@ -4,16 +4,28 @@ title: Get Checks
 
 # Get Checks Endpoint
 
-This page details the GET /checks/{merchantPlaceId}/{deskId} endpoint.
+This endpoint retrieves a list of check items for a specified merchant place and desk.
 
 <APIRef url="../openapi/checks-api.yaml" method="get" route="/checks/{merchantPlaceId}/{deskId}" />
 
-This will render the interactive API documentation for the "Get Checks" endpoint directly on this page, pulling all the information (parameters, request examples, response schemas) from your `checks-api.yaml` file.
+## Overview
 
-**Explanation of the `<APIRef>` component:**
+The GET `/checks/{merchantPlaceId}/{deskId}` endpoint returns detailed information about checks at a specific location. This includes all check items with their associated products, pricing, and status information.
 
-* `url="openapi/checks-api.yaml"`: This specifies the path to your OpenAPI specification file relative to your Mintlify project root.
-* `method="get"`: This indicates that you want to display the documentation for a GET request.
-* `route="/checks/{merchantPlaceId}/{deskId}"`: This is the specific path of the endpoint within your OpenAPI specification that you want to reference.
+## Key Features
 
-By doing this, you maintain your per-endpoint page structure in the navigation while leveraging the power of OpenAPI for detailed API documentation on each page.
+- **Path Parameters**: Requires `merchantPlaceId` and `deskId` to identify the specific location
+- **Authentication**: Requires Bearer token authentication
+- **Response**: Returns structured JSON with check data including items, pricing, and VAT information
+- **Grouping**: When the `additionsGrouping` feature flag is enabled, additions are grouped under main items
+
+## Example Response
+
+The endpoint returns comprehensive check information including:
+- Check ID and associated desk information
+- Item details with product information
+- Pricing including VAT rates and amounts
+- Item states and optional notes
+- Measurement units for each item
+
+This interactive documentation will display all available parameters, request examples, and response schemas directly from the OpenAPI specification.
