@@ -27,8 +27,13 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction",
-              "openapi/checks-api"
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Checks API Endpoints",
+            "pages": [
+              "api-reference/checks/get"
             ]
           }
         ]
