@@ -1,0 +1,193 @@
+openapi: 3.0.0
+info:
+  title: Checks API
+  version: 1.0.0
+  description: API for managing checks at merchant places and desks.
+
+servers:
+  - url: https://api.storyous.com
+    description: Storyous API Base URL
+
+paths:
+  /checks/{merchantPlaceId}/{deskId}:
+    get:
+      summary: Get Checks
+      operationId: getChecks
+      description: |
+        Returns a list of check items for a specified table.
+        When the `additionsGrouping` feature flag is enabled, additions will be grouped under the main item.
+      parameters:
+        - in: path
+          name: merchantPlaceId
+          schema:
+            type: string
+          required: true
+          description: The ID of the merchant place.
+          example: 5c2f7245c2d8630058c7fb88-5c2f7245c2d8630058c7fb89
+        - in: path
+          name: deskId
+          schema:
+            type: string
+          required: true
+          description: The ID of the desk.
+          example: 31436
+        - in: query
+          name: merchantPlaceId
+          schema:
+            type: string
+          description: Optional query parameter for merchantPlaceId (redundant if also in path, but included based on original).
+          example: 5c2f7245c2d8630058c7fb88-5c2f7245c2d8630058c7fb89
+        - in: query
+          name: deskId
+          schema:
+            type: string
+          description: Optional query parameter for deskId (redundant if also in path, but included based on original).
+          example: 31436
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            enum: [application/json]
+          required: false
+          description: The content type of the request body.
+          example: application/json
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK - Returns a list of check items.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Check'
+                  type:
+                    type: string
+                    example: "string" # Based on your example, though often this would be an array type.
+              examples:
+                SuccessResponse:
+                  value:
+                    data:
+                      - checkId: "45d302c210079cdb"
+                        name: "persons name"
+                        deskId: "31436"
+                        items:
+                          - checkItemId: "3f5c59186a537b99"
+                            productId: "p:dc2M2cHEw"
+                            title: "Brambuláš"
+                            marketingTitle: null
+                            vatRate: 0.05
+                            vatId: 2
+                            priceWithVat: 100
+                            amount: 1
+                            state: "ordered"
+                            note: "Some Note"
+                            measure: "pcs"
+                          - checkItemId: "3f5c59186a537b99"
+                            productId: "p:dc2M2cHXX"
+                            title: "bez knedlíků"
+                            marketingTitle: null
+                            vatRate: 0.05
+                            vatId: 2
+                            priceWithVat: 0
+                            amount: 1
+                            state: "ordered"
+                            measure: "pcs"
+                          - checkItemId: "3f5c59186a537b99"
+                            productId: "p:dc2M2cHXX"
+                            title: "špagety navíc"
+                            marketingTitle: null
+                            vatRate: 0.05
+                            vatId: 2
+                            priceWithVat: 33
+                            amount: 1
+                            state: "ordered"
+                            measure: "pcs"
+                    type: "string"
+    post:
+      summary: Pay Check
+      operationId: payCheck
+      description: This endpoint is for processing payments for a check. (Details not provided in original text)
+      # You would add requestBody, parameters, and responses here for the POST endpoint.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # Or whatever format your token uses
+
+  schemas:
+    Check:
+      type: object
+      properties:
+        checkId:
+          type: string
+          description: The unique identifier of the check.
+          example: "45d302c210079cdb"
+        name:
+          type: string
+          description: The name associated with the check (e.g., person's name).
+          example: "persons name"
+        deskId:
+          type: string
+          description: The ID of the desk associated with the check.
+          example: "31436"
+        items:
+          type: array
+          description: An array of check items.
+          items:
+            $ref: '#/components/schemas/CheckItem'
+    CheckItem:
+      type: object
+      properties:
+        checkItemId:
+          type: string
+          description: The unique identifier of the check item.
+          example: "3f5c59186a537b99"
+        productId:
+          type: string
+          description: The ID of the product.
+          example: "p:dc2M2cHEw"
+        title:
+          type: string
+          description: The title of the product.
+          example: "Brambuláš"
+        marketingTitle:
+          type: string
+          nullable: true
+          description: The marketing title of the product.
+          example: null
+        vatRate:
+          type: number
+          format: float
+          description: The VAT rate applied to the item.
+          example: 0.05
+        vatId:
+          type: integer
+          description: The VAT ID.
+          example: 2
+        priceWithVat:
+          type: integer
+          description: The price of the item including VAT.
+          example: 100
+        amount:
+          type: integer
+          description: The quantity of the item.
+          example: 1
+        state:
+          type: string
+          description: The state of the item (e.g., "ordered").
+          example: "ordered"
+        note:
+          type: string
+          description: Any notes associated with the item.
+          example: "Some Note"
+        measure:
+          type: string
+          description: The unit of measurement for the item (e.g., "pcs").
+          example: "pcs"
